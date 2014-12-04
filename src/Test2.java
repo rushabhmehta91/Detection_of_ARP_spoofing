@@ -1,6 +1,7 @@
 import jpcap.JpcapCaptor;
 import jpcap.NetworkInterface;
 import jpcap.packet.ARPPacket;
+import jpcap.packet.DatalinkPacket;
 import jpcap.packet.ICMPPacket;
 import jpcap.packet.Packet;
 
@@ -45,9 +46,11 @@ public class Test2 {
            while(true){
                Packet p=captor.getPacket();
                if(p!=null) {
-                   System.out.println(i++ + ": " + p);
+                   System.out.println(i + ": " + p);
                    System.out.println();
                    System.out.println();
+                   DatalinkPacket d=p.datalink;
+                   System.out.println(i++ + ": " + d);
                    System.out.println();
                }
            }
