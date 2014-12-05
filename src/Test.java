@@ -26,14 +26,22 @@ public class Test {
     /**
      * Prints macaddress in bytes to string
      * @param mac
-     */
+     *
     private static void getMAC(byte[] mac) {
         for (int i = 0; i < mac.length; i++) {
             System.out.format("%02X%s",
                     mac[i], (i < mac.length - 1) ? "-" : "");
         }
+    }*/
+    
+    public synchronized static String getMAC(byte [] MacAdd){
+    	String mac = "";
+    	for (int i =0;i<MacAdd.length-1;i++)
+            mac = mac + Integer.toHexString(MacAdd[i] & 0xff) + ":";
+    	mac = mac + Integer.toHexString(MacAdd[MacAdd.length] & 0xff);
+    	return mac;
     }
-
+    
     /**
      * returns arp cache table
      * http://www.java-forums.org/new-java/63347-read-arp-cache.html
