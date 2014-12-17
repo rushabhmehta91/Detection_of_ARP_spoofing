@@ -9,9 +9,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Test2 {
-    private static JpcapCaptor captor;
     private static final Scanner input = new Scanner(System.in);
-
+    private static JpcapCaptor captor;
 
     public static void main(String args[]) {
         //Obtain the list of network interfaces
@@ -34,40 +33,42 @@ public class Test2 {
 //                System.out.println(" address:" + a.address + " " + a.subnet + " " + a.broadcast);
         }
 
-            int device = input.nextInt();
-             try {
-                captor=captor.openDevice(devices[device], 65535, true, 20);
-                captor.setFilter("arp or icmp", true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            int i=0;
+        int device = input.nextInt();
+        try {
+            captor = captor.openDevice(devices[device], 65535, true, 20);
+            captor.setFilter("arp or icmp", true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int i = 0;
         sendARPRequest(devices[device]);
-           while(true){
-               Packet p=captor.getPacket();
-               if(p!=null) {
-                   System.out.println(i + ": " + p);
-                   System.out.println();
-                   System.out.println();
-                   DatalinkPacket d=p.datalink;
-                   System.out.println(i++ + ": " + d);
-                   System.out.println();
-               }
-           }
+        while (true) {
+            Packet p = captor.getPacket();
+            if (p != null) {
+                System.out.println(i + ": " + p);
+                System.out.println();
+                System.out.println();
+                DatalinkPacket d = p.datalink;
+                System.out.println(i++ + ": " + d);
+                System.out.println();
+            }
+        }
 
     }
 
     private static void sendARPRequest(NetworkInterface device) {
-        ARPPacket arpRequest=new ARPPacket();
-        arpRequest.hardtype=ARPPacket.HARDTYPE_ETHER;
-        arpRequest.prototype=ARPPacket.PROTOTYPE_IP;
-        arpRequest.hlen=6;
-        arpRequest.plen=4;
-        arpRequest.operation=ARPPacket.ARP_REQUEST;
-        arpRequest.sender_hardaddr=device.mac_address;
+        ARPPacket arpRequest = new ARPPacket();
+        arpRequest.hardtype = ARPPacket.HARDTYPE_ETHER;
+        arpRequest.prototype = ARPPacket.PROTOTYPE_IP;
+        arpRequest.hlen = 6;
+        arpRequest.plen = 4;
+        arpRequest.operation = ARPPacket.ARP_REQUEST;
+        arpRequest.sender_hardaddr = device.mac_address;
 //        arpRequest.sender_protoaddr=;
 //        arpRequest.target_hardaddr=
 
 
     }
+
+
 }
